@@ -2,59 +2,81 @@
       <div>
     <div class="top-row">
       <div class="top part">
-        <img v-bind:src="parts.heads[0].src" title="head"/>
-        <button v-on:click="GetNext()" class="prev-selector">&#9668;</button>
-        <button v-on:click="getPrevious(parts.heads[0].type)" class="next-selector">&#9658;</button>
+        <img v-bind:src="parts.heads[headIndex].src" title="head"/>
+        <button v-on:click="getPrevious(boxType.head.type)" class="prev-selector">&#9668;</button>
+        <button v-on:click="getNext(boxType.head.type)" class="next-selector">&#9658;</button>
       </div>
     </div>
     <div class="middle-row">
       <div class="left part">
-        <img v-bind:src="parts.arms[0].src" title="right arm"/>
-        <button class="prev-selector">&#9650;</button>
-        <button class="next-selector">&#9660;</button>
+        <img v-bind:src="parts.arms[leftArmIndex].src" title="left arm"/>
+        <button v-on:click="getPrevious(boxType.leftArm.type)" class="prev-selector">&#9650;</button>
+        <button v-on:click="getNext(boxType.leftArm.type)" class="next-selector">&#9660;</button>
       </div>
       <div class="center part">
-        <img v-bind:src="parts.torsos[0].src" title="left arm"/>
-        <button class="prev-selector">&#9668;</button>
-        <button class="next-selector">&#9658;</button>
+        <img v-bind:src="parts.torsos[torsosIndex].src" title="torsos"/>
+        <button v-on:click="getPrevious(boxType.torsos.type)" class="prev-selector">&#9668;</button>
+        <button v-on:click="getNext(boxType.torsos.type)"  class="next-selector">&#9658;</button>
       </div>
       <div class="right part">
-        <img v-bind:src="parts.arms[1].src" title="left arm"/>
-        <button class="prev-selector">&#9650;</button>
-        <button class="next-selector">&#9660;</button>
+        <img v-bind:src="parts.arms[rightArmIndex].src" title="right arm"/>
+        <button v-on:click="getPrevious(boxType.rightArm.type)" class="prev-selector">&#9650;</button>
+        <button v-on:click="getNext(boxType.rightArm.type)"  class="next-selector">&#9660;</button>
       </div>
     </div>
     <div class="bottom-row">
       <div class="bottom part">
-        <img v-bind:src="parts.bases[0].src" title="bases arm"/>
-        <button class="prev-selector">&#9668;</button>
-        <button class="next-selector">&#9658;</button>
+        <img v-bind:src="parts.bases[baseIndex].src" title="bases arm"/>
+        <button v-on:click="getPrevious(boxType.bases.type)" class="prev-selector">&#9668;</button>
+        <button v-on:click="getNext(boxType.bases.type)" class="next-selector">&#9658;</button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import parts from '../data/parts.js';
+import {parts, boxType } from '../data/parts.js';
 export default {
     name : "RobotBuilder",
     data() {
       return {
         parts,
-        headIndex = 0,
-        leftArmIndex = 0,
-        rightArmIndex = 0,
-        torsosIndex = 0,
-        baseIndex = 0
+        boxType,
+        headIndex:0,
+        leftArmIndex : 0,
+        rightArmIndex : 0,
+        torsosIndex : 0,
+        baseIndex : 0
 
       }
     },
     methods: {
-      getNext(Boxtype) {
+      getNext(boxtype) {
+        if(this.boxType.head.type == boxtype) {
+        (this.headIndex + 1 == this.parts.heads.length) ? this.headIndex = 0 : this.headIndex++;
+        }else if(this.boxType.leftArm.type == boxtype) {
+          (this.leftArmIndex + 1 == this.parts.arms.length) ? this.leftArmIndex = 0 : this.leftArmIndex++;
+        }else if(this.boxType.rightArm.type == boxtype) {
+          (this.rightArmIndex + 1 == this.parts.arms.length) ? this.rightArmIndex = 0 : this.rightArmIndex++;
+        }else if(this.boxType.torsos.type == boxtype) {
+          (this.torsosIndex + 1 == this.parts.torsos.length) ? this.torsosIndex = 0 : this.torsosIndex++;
+        }else if(this.boxType.bases.type == boxtype) {
+          (this.baseIndex + 1 == this.parts.bases.length) ? this.baseIndex = 0 : this.baseIndex++;
+        }
 
-      },
-      getPrevious(Boxtype) {
-
+    },
+      getPrevious(boxtype) {
+        if(this.boxType.head.type == boxtype) {
+        (this.headIndex - 1 < 0) ? this.headIndex = this.parts.heads.length - 1 : this.headIndex--;
+        }else if(this.boxType.leftArm.type == boxtype) {
+          (this.leftArmIndex - 1 < 0) ? this.leftArmIndex = this.parts.arms.length - 1 : this.leftArmIndex--;
+        }else if(this.boxType.rightArm.type == boxtype) {
+          (this.rightArmIndex - 1 < 0) ? this.rightArmIndex = this.parts.arms.length - 1 : this.rightArmIndex--;
+        }else if(this.boxType.torsos.type == boxtype) {
+          (this.torsosIndex - 1 < 0) ? this.torsosIndex = this.parts.torsos.length - 1 : this.torsosIndex--;
+        }else if(this.boxType.bases.type == boxtype) {
+          (this.baseIndex - 1 < 0) ? this.baseIndex = this.parts.bases.length - 1 : this.baseIndex--;
+        }
       } 
     },
 }

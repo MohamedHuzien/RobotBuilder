@@ -161,4 +161,23 @@ const parts = {
     }
   ]
 }
-export default parts
+
+const boxType = {
+  head : {
+    type : 'head'
+  },
+  leftArm : {
+    type : 'leftArm'
+  },
+  rightArm : {
+    type : 'rightArm'
+  },
+  torsos : {
+    type : 'torsos'
+  },
+  bases : {
+    type : 'bases'
+  },
+}
+
+export {parts , boxType }
